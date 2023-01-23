@@ -9,14 +9,14 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="timer">0</div>
+        <div class="timer" id="counter">10</div>
         <div class="traffic-light">
-            <div class="circle red"></div>
-            <div class="circle yellow"></div>
-            <div class="circle green"></div>
+            <div class="circle red__active" id="red" color = "red__active"></div>
+            <div class="circle yellow" id="yellow" color = "yellow__active"></div>
+            <div class="circle green" id="green" color = "green__active"></div>
         </div>
     </div>
-    <button>GO!</button>
-    <script src="main.js"></script>
+    <button id="button">GO!</button>
+    <script src="file.js"></script>
 </body>
 </html>
