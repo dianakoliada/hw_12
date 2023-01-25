@@ -1,96 +1,59 @@
 'use strict'
 
-// Используя интервал или таймаут на ваш выбор реализуйте светофор.
-// свет переключается каждые 5 секунд.
 //при нажатии на кнопку Walk, 
 // светофор переходит на красный, ждет 10 секунд, и продлжает обычную работу.
 // под кнопкой есть счетчик, он отображает сколько секуд осталось после нажатия на кнопку.
 
 const lights = document.getElementsByClassName('circle');
-console.log(lights);
-
-const redLight = document.getElementById('red');
-console.log(redLight);
-
-const yellowLight = document.getElementById('yellow');
-console.log(yellowLight);
-
-const greenLight = document.getElementById('green');
-console.log(greenLight);
-
 const btn = document.getElementById('button');
-console.log(btn);
+const redLight = document.getElementById('red');
+const yellowLight = document.getElementById('yellow');
+const greenLight = document.getElementById('green');
+let activeLight = 0;
+let currentLight = undefined;
 
-let i = 0;
-for (; i <= lights.length; i++) {
-    // switch (i) {
-    //     case i: setInterval(() => {
-    //         redLight.style.opacity = '1';
-    //         }, 5000);
-    //     case i: setInterval(() => {
-    //         redLight.style.opacity = '.3';
-    //         }, 10000);
-    //     case i: setInterval(() => {
-    //         yellowLight.style.opacity = '1';
-    //         }, 10000);
-    //     case i: setInterval(() => {
-    //         yellowLight.style.opacity = '.3';
-    //         }, 16000);
-    //     case i: setInterval(() => {
-    //         greenLight.style.opacity = '1';
-    //         }, 16000);
-    //     case i: setInterval(() => {
-    //         greenLight.style.opacity = '.3';
-    //         }, 26000);
-    // };
-    switch (i) {
-        case i: setTimeout(() => {
-            redLight.style.opacity = '1';
-            }, 1000);
-        case i: setTimeout(() => {
-            redLight.style.opacity = '.3';
-            }, 6000);
-        case i: setTimeout(() => {
-            yellowLight.style.opacity = '1';
-            }, 6000);
-        case i: setTimeout(() => {
-            yellowLight.style.opacity = '.3';
-            }, 11000);
-        case i: setTimeout(() => {
-            greenLight.style.opacity = '1';
-            }, 11000);
-        case i: setTimeout(() => {
-            greenLight.style.opacity = '.3';
-            }, 16000);
-        };
+function activeTrafficLight () {
+    lights[activeLight].className = 'circle'; //перебираю дивы с классом 'circle'
+    activeLight++; 
+
+    if(activeLight>2){
+        activeLight = 0;
     };
-    // if (i > 2) {
-    //     i = 0;
-    // }
 
-// function turnLightOnRedHandler () {
-//     redLight.style.opacity = '1';
-//     setInterval(() => {
-//         yellowLight.style.opacity = '.3';
-//         greenLight.style.opacity = '.3';
-//     }, 10000);
-// };
-// turnLightOnRedHandler(setTimeout);
+    currentLight = lights[activeLight];
+    currentLight.classList.add(currentLight.getAttribute('color'));
+};
 
 
-const counter = document.getElementById('counter');
-console.log(counter);
+const onStartWorking = setInterval(() => {
+    activeTrafficLight ()
+}, 2000); //5000
 
-let cntValue = 10;
+
+btn.addEventListener('click', () => {
+    clearInterval(onStartWorking);
+
+    redLight.classList.add('red__active');
+    yellowLight.classList.remove('yellow__active');
+    greenLight.classList.remove('green__active');
     
-const pointer = setInterval(() => { 
+    let cntValue = 10;
+
+    btn.disabled = true;
+     
+    const pointer = setInterval(() => { 
     if (cntValue === 0) {
-        return;
-    }
+        cntValue = 11;
+        clearInterval(pointer);
+        btn.disabled = false;
+        setInterval(() => {
+            activeTrafficLight ()
+        }, 2000); //5000
+    };
+
     cntValue -= 1;
     counter.innerHTML = cntValue;
-}, 1000);
-
-
+    }, 1000);
+});
 
 
