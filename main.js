@@ -1,59 +1,60 @@
 'use strict'
 
-//при нажатии на кнопку Walk, 
-// светофор переходит на красный, ждет 10 секунд, и продлжает обычную работу.
-// под кнопкой есть счетчик, он отображает сколько секуд осталось после нажатия на кнопку.
+const light = document.querySelectorAll('.circle');
+console.log(light);
 
-const lights = document.getElementsByClassName('circle');
 const btn = document.getElementById('button');
-const redLight = document.getElementById('red');
-const yellowLight = document.getElementById('yellow');
-const greenLight = document.getElementById('green');
-let activeLight = 0;
-let currentLight = undefined;
+console.log(btn);
 
-function activeTrafficLight () {
-    lights[activeLight].className = 'circle'; //перебираю дивы с классом 'circle'
-    activeLight++; 
+let count = 0;
+let interval;
 
-    if(activeLight>2){
-        activeLight = 0;
-    };
+function activeTrafficLight() {
+    interval = setInterval(() => {
+        light[count].className = 'circle';
+        count++;
 
-    currentLight = lights[activeLight];
-    currentLight.classList.add(currentLight.getAttribute('color'));
+        if(count > 2) {
+            count = 0;
+        }
+
+        light[count].classList.add(light[count].getAttribute('color'));
+    }, 2000); //5000
 };
+activeTrafficLight();
 
-
-const onStartWorking = setInterval(() => {
-    activeTrafficLight ()
-}, 2000); //5000
-
+btn.disabled = false;
 
 btn.addEventListener('click', () => {
-    clearInterval(onStartWorking);
+    clearInterval(interval);
 
-    redLight.classList.add('red__active');
-    yellowLight.classList.remove('yellow__active');
-    greenLight.classList.remove('green__active');
-    
-    let cntValue = 10;
+    let counter = 11;
+    let countNum = document.getElementById('counter');
 
-    btn.disabled = true;
-     
-    const pointer = setInterval(() => { 
-    if (cntValue === 0) {
-        cntValue = 11;
-        clearInterval(pointer);
-        btn.disabled = false;
-        setInterval(() => {
-            activeTrafficLight ()
-        }, 2000); //5000
-    };
+    let timer = setInterval(() => {
+        counter--;
+        countNum.innerHTML = counter;
 
-    cntValue -= 1;
-    counter.innerHTML = cntValue;
+        if (counter > 0) {
+            light[count].classList.remove(light[count].getAttribute('color'));
+            light[0].classList.add(light[0].getAttribute('color'));
+            return btn.disabled = true;
+        }
+        else {
+            clearInterval(timer);
+            light[0].classList.remove(light[0].getAttribute('color'));
+            return btn.disabled = false;
+        }
     }, 1000);
+
+    setTimeout(() => {
+        count = 0;
+        activeTrafficLight();
+    }, 10000);
 });
+
+
+
+
 
 

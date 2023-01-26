@@ -43,21 +43,21 @@ button {
     left: 21px;
 }
 
-.red__active {
+.red__light {
     background-color: #FF1700;
     box-shadow: 0 0 25px #FF1700;
     top: 15px;
     /* opacity: .3; */
 }
 
-.yellow__active {
+.yellow__light {
     background-color: #FFF323;
     box-shadow: 0 0 25px #FFF323;
     top: 78px;
     /* opacity: .3; */
 }
 
-.green__active {
+.green__light {
     background-color: #38E54D;
     box-shadow: 0 0 25px #38E54D;
     top: 142px;
